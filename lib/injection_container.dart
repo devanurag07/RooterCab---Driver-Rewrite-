@@ -12,12 +12,27 @@ import "package:uber_clone_x/features/auth/data/datasources/auth_remote_datasour
 import "package:uber_clone_x/features/auth/data/repository/auth_repository_impl.dart";
 import "package:uber_clone_x/features/auth/domain/repository/auth_repostiory.dart";
 import "package:uber_clone_x/core/constants.dart" as constants;
-import "package:uber_clone_x/features/auth/domain/usecases/get_profile.dart";
 import "package:uber_clone_x/features/auth/domain/usecases/signin_user.dart";
 import "package:uber_clone_x/features/auth/domain/usecases/signup_user.dart";
 import "package:uber_clone_x/features/auth/domain/usecases/verify_signin_otp.dart";
 import "package:uber_clone_x/features/auth/presentation/bloc/auth_bloc.dart";
 import "package:uber_clone_x/features/auth/presentation/cubit/profile_verification_cubit.dart";
+import "package:uber_clone_x/features/earnings/data/datasources/earnings_remote_datasource.dart";
+import "package:uber_clone_x/features/earnings/data/repository/earnings_repository_impl.dart";
+import "package:uber_clone_x/features/earnings/domain/repository/earnings_repository.dart";
+import "package:uber_clone_x/features/earnings/domain/usecases/get_driver_earnings.dart";
+import "package:uber_clone_x/features/earnings/presentation/bloc/earnings_bloc.dart";
+import "package:uber_clone_x/features/profile/data/datasources/profile_remote_datasource.dart";
+import "package:uber_clone_x/features/profile/data/datasources/vehicle_remote_datasource.dart";
+import "package:uber_clone_x/features/profile/data/repository/profile_repository_impl.dart";
+import "package:uber_clone_x/features/profile/data/repository/vehicle_repository_impl.dart";
+import "package:uber_clone_x/features/profile/domain/repository/profile_repository.dart";
+import "package:uber_clone_x/features/profile/domain/repository/vehicle_repository.dart";
+import "package:uber_clone_x/features/profile/domain/usecases/get_user_profile.dart";
+import "package:uber_clone_x/features/profile/domain/usecases/get_driver_vehicles.dart";
+import "package:uber_clone_x/features/profile/domain/usecases/update_user_profile.dart";
+import "package:uber_clone_x/features/profile/presentation/bloc/profile_bloc.dart";
+import "package:uber_clone_x/features/profile/presentation/bloc/vehicle_bloc.dart";
 import "package:uber_clone_x/features/ride/data/repository/ride_repository_impl.dart";
 import "package:uber_clone_x/features/ride/presentation/bloc/ride_bloc.dart";
 import "package:uber_clone_x/features/ride/domain/repository/ride_repository.dart";
@@ -26,6 +41,11 @@ import "package:uber_clone_x/features/ride/domain/usecases/attach_ride_streams.d
 import "package:uber_clone_x/features/ride/domain/usecases/decline_ride.dart";
 import "package:uber_clone_x/features/ride/domain/usecases/detach_ride_streams.dart";
 import "package:uber_clone_x/features/ride/domain/usecases/get_active_ride.dart";
+import "package:uber_clone_x/features/trip/data/datasources/trip_remote_datasource.dart";
+import "package:uber_clone_x/features/trip/data/repository/trip_repository_impl.dart";
+import "package:uber_clone_x/features/trip/domain/repository/trip_repository.dart";
+import "package:uber_clone_x/features/trip/domain/usecases/get_driver_trips.dart";
+import "package:uber_clone_x/features/trip/presentation/bloc/trip_bloc.dart";
 
 final sl = GetIt.instance;
 
@@ -103,5 +123,46 @@ Future<void> initDependencies() async {
         attach: sl<AttachRideStreams>(),
         detach: sl<DetachRideStreams>(),
         repo: sl<RideRepository>(),
+      ));
+
+  // earnings bloc
+  sl.registerLazySingleton<EarningsRemoteDataSource>(
+      () => EarningsRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<EarningsRepository>(
+      () => EarningsRepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<GetDriverEarnings>(() => GetDriverEarnings(sl()));
+  sl.registerFactory(() => EarningsBloc(
+        getDriverEarnings: sl<GetDriverEarnings>(),
+      ));
+
+  // trip feature dependencies
+  sl.registerLazySingleton<TripRemoteDataSource>(
+      () => TripRemoteDataSourceImpl(apiClient: sl()));
+  sl.registerLazySingleton<TripRepository>(
+      () => TripRepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<GetDriverTrips>(() => GetDriverTrips(sl()));
+  sl.registerFactory(() => TripBloc(
+        getDriverTrips: sl<GetDriverTrips>(),
+      ));
+
+  // profile feature dependencies
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(sl()));
+  sl.registerFactory(() => ProfileBloc(
+        getUserProfile: sl<GetUserProfile>(),
+        updateUserProfile: sl<UpdateUserProfile>(),
+      ));
+
+  // vehicle feature dependencies
+  sl.registerLazySingleton<VehicleRemoteDataSource>(
+      () => VehicleRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<VehicleRepository>(
+      () => VehicleRepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<GetDriverVehicles>(() => GetDriverVehicles(sl()));
+  sl.registerFactory(() => VehicleBloc(
+        getDriverVehicles: sl<GetDriverVehicles>(),
       ));
 }

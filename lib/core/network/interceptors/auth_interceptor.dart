@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:uber_clone_x/core/network/token/token_store.dart';
+import 'package:uber_clone_x/core/utils/naviation_utils.dart';
 
 class AuthInterceptor extends Interceptor {
   final TokenStore tokenStore;
@@ -28,7 +29,10 @@ class AuthInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       final refresh = await tokenStore.readRefreshToken();
       if (refresh == null) {
-        return handler.next(err); // no refresh token available
+        // No refresh token available, clear storage and navigate to login
+        await tokenStore.clear();
+        navigateToLogin();
+        return handler.next(err);
       }
 
       // queue pending requests to retry after refresh
@@ -61,6 +65,8 @@ class AuthInterceptor extends Interceptor {
         }
       } catch (_) {
         await tokenStore.clear();
+        // Navigate to login screen on auth failure
+        navigateToLogin();
         for (final q in _queue) {
           q.handler.next(err); // propagate original 401
         }

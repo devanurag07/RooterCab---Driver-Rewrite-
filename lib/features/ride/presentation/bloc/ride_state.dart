@@ -13,13 +13,18 @@ class RideLoading extends RideState {
 }
 
 class RideRequested extends RideState {
-  final RideRequest req;
+  final Ride req;
   const RideRequested(this.req);
 }
 
 class RideActive extends RideState {
-  final String rideId;
-  const RideActive(this.rideId);
+  final Ride ride;
+  const RideActive(this.ride);
+}
+
+class RideCompleted extends RideState {
+  final Ride ride;
+  const RideCompleted(this.ride);
 }
 
 class RideError extends RideState {
