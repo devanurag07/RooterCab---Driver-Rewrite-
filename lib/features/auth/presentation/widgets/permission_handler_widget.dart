@@ -37,7 +37,6 @@ class _PermissionHandlerWidgetState extends State<PermissionHandlerWidget> {
     final batteryOptimizationStatus = Platform.isAndroid
         ? await ph.Permission.ignoreBatteryOptimizations.status
         : ph.PermissionStatus.granted;
-    final notificationStatus = await ph.Permission.notification.status;
     // Overlay permission (Android only)
     final overlayGranted = Platform.isAndroid
         ? await ph.Permission.systemAlertWindow.status

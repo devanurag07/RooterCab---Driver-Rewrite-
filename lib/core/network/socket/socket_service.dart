@@ -247,7 +247,7 @@ class SocketService implements ISocketService {
     } catch (e) {
       if (finished) return;
       finished = true;
-      to?.cancel();
+      to.cancel();
       done(e);
     }
   }

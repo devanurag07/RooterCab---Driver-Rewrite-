@@ -229,46 +229,6 @@ class HelpCenterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard(String title, IconData icon, Color color) {
-    return Container(
-      width: 110,
-      margin: EdgeInsets.only(right: 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 10,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 28),
-          ),
-          SizedBox(height: 12),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   final List<Map<String, String>> faqItems = [
     {
       'question': 'How do I change my password?',
@@ -423,6 +383,6 @@ Widget _buildContactItem(IconData icon, String title, [String subtitle = '']) {
   return ExpansionTile(
     leading: Icon(icon, color: Colors.orange),
     title: Text(title),
-    children: subtitle != null ? [ListTile(title: Text(subtitle))] : [],
+    children: [ListTile(title: Text(subtitle))],
   );
 }

@@ -12,7 +12,6 @@ import 'package:uber_clone_x/features/ride/domain/usecases/get_active_ride.dart'
 import 'package:uber_clone_x/features/ride/domain/usecases/attach_ride_streams.dart';
 import 'package:uber_clone_x/features/ride/domain/usecases/detach_ride_streams.dart';
 import 'package:uber_clone_x/features/ride/domain/repository/ride_repository.dart';
-import 'package:uber_clone_x/features/ride/domain/entities/ride_request.dart';
 
 part 'ride_events.dart';
 part 'ride_state.dart';

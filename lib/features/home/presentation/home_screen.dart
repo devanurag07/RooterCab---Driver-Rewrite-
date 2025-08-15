@@ -7,7 +7,6 @@ import "package:permission_handler/permission_handler.dart" as ph;
 import 'package:uber_clone_x/core/network/socket/i_socket_service.dart';
 import 'package:uber_clone_x/core/theme/app_colors.dart';
 import 'package:uber_clone_x/core/utils/permission_utils.dart';
-import 'package:uber_clone_x/features/auth/presentation/widgets/permission_handler_widget.dart';
 import 'package:uber_clone_x/features/home/widgets/activeride_widget.dart';
 import 'package:uber_clone_x/features/home/widgets/app_drawer.dart';
 import 'package:uber_clone_x/features/home/widgets/map_widget.dart';
@@ -25,7 +24,6 @@ class HomeScreen extends StatefulWidget with WidgetsBindingObserver {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   // Global app state
   bool isAppPaused = false;
-  bool _allPermissionsGranted = false;
   // main socket connection
   bool _isConnecting = false;
   bool _isOnline = false;
@@ -44,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // check permissions
     checkPermissions().then((value) {
       if (value) {
-        setState(() {
-          _allPermissionsGranted = true;
-        });
+        // setState(() {
+        //   _allPermissionsGranted = true;
+        // });
       }
     });
     // Initialize after driverId is available to avoid race conditions
@@ -84,20 +82,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (locationStatus.isGranted &&
         backgroundLocationStatus.isGranted &&
         batteryOptimizationStatus.isGranted) {
-      if (mounted) {
-        setState(() {
-          _allPermissionsGranted = true;
-        });
-      }
       // Initialize App Services If All Permissions Are Granted
       // await _initializeAppServices();
     } else {
       // If Not All Permissions Are Granted, show permission handler via build()
-      if (mounted) {
-        setState(() {
-          _allPermissionsGranted = false;
-        });
-      }
     }
   }
 
@@ -138,12 +126,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _isConnecting = false;
       });
     }
-  }
-
-  void _onAllPermissionsGranted() {
-    setState(() {
-      _allPermissionsGranted = true;
-    });
   }
 
   @override

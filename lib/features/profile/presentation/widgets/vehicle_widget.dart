@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uber_clone_x/features/profile/data/models/vehicle_model.dart';
 import 'package:uber_clone_x/features/profile/domain/entities/vehicle.dart';
 
 Widget VehicleDetailCard(BuildContext context, Vehicle vehicle) {

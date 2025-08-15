@@ -17,7 +17,6 @@ class _AppDrawerState extends State<AppDrawer> {
   String _userName = '';
   String userId = '';
   String _phoneNo = '';
-  String _profile = '';
   String _profileImage = '';
   String earningsType = '';
 
@@ -36,7 +35,6 @@ class _AppDrawerState extends State<AppDrawer> {
         _userName = user['full_name'];
         userId = user['_id'];
         _phoneNo = user['phone'];
-        _profile = user['profile'] ?? '';
         _profileImage = user['profile_image'] ?? '';
         earningsType = user['earnings_type'] ?? '';
       });

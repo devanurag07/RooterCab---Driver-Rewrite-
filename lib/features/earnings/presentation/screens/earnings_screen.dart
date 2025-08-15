@@ -12,6 +12,7 @@ class TabItem {
 }
 
 class EarningsScreen extends StatefulWidget {
+  const EarningsScreen({super.key});
   @override
   State<EarningsScreen> createState() => _EarningsScreenState();
 }
@@ -32,11 +33,6 @@ class _EarningsScreenState extends State<EarningsScreen>
   void initState() {
     super.initState();
     context.read<EarningsBloc>().add(FetchEarnings());
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -69,7 +65,7 @@ class _EarningsScreenState extends State<EarningsScreen>
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.r)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 20,
             offset: Offset(0, 5),
           ),
@@ -200,7 +196,7 @@ class _EarningsScreenState extends State<EarningsScreen>
                       ),
                     ),
                     Text(
-                      '${earnings.monthly.earnings.toStringAsFixed(2) ?? "0.00"}',
+                      earnings.monthly.earnings.toStringAsFixed(2),
                       style: TextStyle(
                         fontSize: 40.sp,
                         fontWeight: FontWeight.bold,
@@ -331,7 +327,7 @@ class _EarningsScreenState extends State<EarningsScreen>
         borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: Offset(0, 4),
           ),

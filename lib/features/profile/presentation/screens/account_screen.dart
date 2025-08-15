@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uber_clone_x/core/theme/app_colors.dart';
-import 'package:uber_clone_x/features/auth/presentation/screens/login_screen.dart';
 import 'package:uber_clone_x/features/profile/presentation/screens/help_screen.dart';
 import 'package:uber_clone_x/features/profile/presentation/screens/profile_screen.dart';
 import 'package:uber_clone_x/features/profile/presentation/screens/vehicle_screen.dart';
@@ -195,9 +194,6 @@ void showLogoutDialog(BuildContext context) {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('accessToken');
     await prefs.remove('userData');
-
-    
-    
   }
 
   showModalBottomSheet(
